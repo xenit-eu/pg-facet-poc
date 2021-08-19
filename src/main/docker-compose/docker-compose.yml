@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  postgresql:
+    image: ${DOCKER_IMAGE}
+    ports:
+    - 5432:5432
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    environment:
+    - POSTGRES_USER=my_user
+    - POSTGRES_PASSWORD=my_password
+    - POSTGRES_DB=facetpoc
+    - PGCONF_max_connections=25
+    - PGCONF_shared_buffers=1536MB
+    - PGCONF_effective_cache_size=4608MB
+    - PGCONF_maintenance_work_mem=384MB
+    - PGCONF_checkpoint_completion_target=0.9
+    - PGCONF_wal_buffers=16MB
+    - PGCONF_default_statistics_target=100
+    - PGCONF_random_page_cost=1.1
+    - PGCONF_effective_io_concurrency=200
+    - PGCONF_work_mem=1GB
+    - PGCONF_min_wal_size=1GB
+    - PGCONF_max_wal_size=4GB
+    - PGCONF_max_worker_processes=4
+    - PGCONF_max_parallel_workers_per_gather=2
+    - PGCONF_max_parallel_workers=4
+    - PGCONF_max_parallel_maintenance_workers=2
+
+volumes:
+  postgres:
